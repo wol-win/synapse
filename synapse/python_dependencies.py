@@ -59,7 +59,8 @@ REQUIREMENTS = [
     "service_identity>=18.1.0",
     # Twisted 18.9 introduces some logger improvements that the structured
     # logger utilises
-    "Twisted>=21.2.0rc1",
+    "Twisted==21.2.0rc1",
+    "Twisted[tls]==21.2.0rc1",
     "treq>=15.1",
     # Twisted has required pyopenssl 16.0 since about Twisted 16.6.
     "pyopenssl>=16.0.0",
