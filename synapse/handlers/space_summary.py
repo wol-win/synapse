@@ -38,6 +38,9 @@ MAX_ROOMS = 50
 # max number of events to return per room.
 MAX_ROOMS_PER_SPACE = 50
 
+# max number of federation servers to hit per room
+MAX_SERVERS_PER_SPACE = 3
+
 
 class SpaceSummaryHandler:
     def __init__(self, hs: "HomeServer"):
@@ -47,6 +50,8 @@ class SpaceSummaryHandler:
         self._state_handler = hs.get_state_handler()
         self._store = hs.get_datastore()
         self._event_serializer = hs.get_event_client_serializer()
+        self._server_name = hs.hostname
+        self._federation_client = hs.get_federation_client()
 
     async def get_space_summary(
         self,
@@ -91,19 +96,32 @@ class SpaceSummaryHandler:
             logger.debug("Processing room %s", room_id)
             processed_rooms.add(room_id)
 
+            is_in_room = await self._store.is_host_joined(room_id, self._server_name)
+
             # The client-specified max_rooms_per_space limit doesn't apply to the
             # room_id specified in the request, so we ignore it if this is the
             # first room we are processing.
             max_children = max_rooms_per_space if processed_rooms else None
 
-            rooms, events = await self._summarize_local_room(
-                requester, room_id, suggested_only, max_children
-            )
+            if is_in_room:
+                rooms, events = await self._summarize_local_room(
+                    requester, room_id, suggested_only, max_children
+                )
+            else:
+                rooms, events = await self._summarize_remote_room(
+                    queue_entry,
+                    suggested_only,
+                    max_children,
+                    exclude_rooms=processed_rooms,
+                )
 
             rooms_result.extend(rooms)
             events_result.extend(events)
 
             # add any children that we haven't already processed to the queue
+            # XXX: is it ok that we blindly iterate through any events returned by
+            #   a remote server, whether or not they actually link to any rooms in our
+            #   tree?
             for edge_event in events:
                 if edge_event["state_key"] not in processed_rooms:
                     # _get_child_events has already validated that the vias are a list
@@ -204,6 +222,39 @@ class SpaceSummaryHandler:
                 )
             )
         return (room_entry,), events_result
+
+    async def _summarize_remote_room(
+        self,
+        room: "_RoomQueueEntry",
+        suggested_only: bool,
+        max_children: Optional[int],
+        exclude_rooms: Iterable[str],
+    ) -> Tuple[Sequence[JsonDict], Sequence[JsonDict]]:
+        room_id = room.room_id
+        logger.info("Requesting summary for %s via %s", room_id, room.via)
+
+        # we need to make the exclusion list json-serialisable
+        exclude_rooms = list(exclude_rooms)
+
+        via = itertools.islice(room.via, MAX_SERVERS_PER_SPACE)
+        try:
+            res = await self._federation_client.get_space_summary(
+                via,
+                room.room_id,
+                suggested_only=suggested_only,
+                max_rooms_per_space=max_children,
+                exclude_rooms=exclude_rooms,
+            )
+        except Exception as e:
+            logger.warning(
+                "Unable to get summary of %s via federation: %s",
+                room_id,
+                e,
+                exc_info=logger.isEnabledFor(logging.DEBUG),
+            )
+            return (), ()
+
+        return res.rooms, tuple(ev.data for ev in res.events)
 
     async def _is_room_accessible(self, room_id: str, requester: Optional[str]) -> bool:
         # if we have an authenticated requesting user, first check if they are in the
