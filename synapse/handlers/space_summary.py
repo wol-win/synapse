@@ -115,6 +115,12 @@ class SpaceSummaryHandler:
                     exclude_rooms=processed_rooms,
                 )
 
+                logger.debug(
+                    "Federation request for %s returned rooms %s",
+                    queue_entry.room_id,
+                    [room.get("room_id") for room in rooms],
+                )
+
                 # any rooms returned don't need visiting again
                 processed_rooms.update(room.get("room_id") for room in rooms)
 
