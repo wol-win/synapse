@@ -115,6 +115,9 @@ class SpaceSummaryHandler:
                     exclude_rooms=processed_rooms,
                 )
 
+                # any rooms returned don't need visiting again
+                processed_rooms.update(room.get("room_id") for room in rooms)
+
             rooms_result.extend(rooms)
             events_result.extend(events)
 
