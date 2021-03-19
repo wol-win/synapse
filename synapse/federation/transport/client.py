@@ -1001,7 +1001,6 @@ class TransportLayerClient:
         )
 
         params = {
-            "room_id": room_id,
             "suggested_only": suggested_only,
             "exclude_rooms": exclude_rooms,
         }

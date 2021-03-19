@@ -94,7 +94,6 @@ class SpaceSummaryHandler:
             queue_entry = room_queue.popleft()
             room_id = queue_entry.room_id
             logger.debug("Processing room %s", room_id)
-            processed_rooms.add(room_id)
 
             is_in_room = await self._store.is_host_joined(room_id, self._server_name)
 
@@ -121,11 +120,15 @@ class SpaceSummaryHandler:
                     [room.get("room_id") for room in rooms],
                 )
 
-                # any rooms returned don't need visiting again
-                processed_rooms.update(room.get("room_id") for room in rooms)
-
             rooms_result.extend(rooms)
             events_result.extend(events)
+
+            # any rooms returned don't need visiting again
+            processed_rooms.update(room.get("room_id") for room in rooms)
+
+            # the room we queried may or may not have been returned, but don't process
+            # it again, anyway.
+            processed_rooms.add(room_id)
 
             # add any children that we haven't already processed to the queue
             # XXX: is it ok that we blindly iterate through any events returned by
