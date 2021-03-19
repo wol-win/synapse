@@ -16,7 +16,7 @@
 import itertools
 import logging
 from collections import deque
-from typing import TYPE_CHECKING, Iterable, List, Optional, Sequence, Set, Tuple
+from typing import TYPE_CHECKING, Iterable, List, Optional, Sequence, Set, Tuple, cast
 
 import attr
 
@@ -78,7 +78,7 @@ class SpaceSummaryHandler:
         await self._auth.check_user_in_room_or_world_readable(room_id, requester)
 
         # the queue of rooms to process
-        room_queue = deque((_RoomQueueEntry(room_id),))
+        room_queue = deque((_RoomQueueEntry(room_id, ()),))
 
         processed_rooms = set()  # type: Set[str]
 
@@ -106,7 +106,12 @@ class SpaceSummaryHandler:
             # add any children that we haven't already processed to the queue
             for edge_event in events:
                 if edge_event["state_key"] not in processed_rooms:
-                    room_queue.append(_RoomQueueEntry(edge_event["state_key"]))
+                    # _get_child_events has already validated that the vias are a list
+                    # of server names
+                    edge_vias = cast(Sequence[str], edge_event["content"]["via"])
+                    room_queue.append(
+                        _RoomQueueEntry(edge_event["state_key"], edge_vias)
+                    )
 
         return {"rooms": rooms_result, "events": events_result}
 
@@ -277,12 +282,24 @@ class SpaceSummaryHandler:
         )
 
         # filter out any events without a "via" (which implies it has been redacted)
-        return (e for e in events if e.content.get("via"))
+        return (e for e in events if _has_valid_via(e))
 
 
 @attr.s(frozen=True, slots=True)
 class _RoomQueueEntry:
     room_id = attr.ib(type=str)
+    via = attr.ib(type=Sequence[str])
+
+
+def _has_valid_via(e: EventBase) -> bool:
+    via = e.content.get("via")
+    if not via or not isinstance(via, Sequence):
+        return False
+    for v in via:
+        if not isinstance(v, str):
+            logger.debug("Ignoring edge event %s with invalid via entry", e.event_id)
+            return False
+    return True
 
 
 def _is_suggested_child_event(edge_event: EventBase) -> bool:
