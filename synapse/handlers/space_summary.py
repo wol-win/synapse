@@ -85,7 +85,12 @@ class SpaceSummaryHandler:
         # the queue of rooms to process
         room_queue = deque((_RoomQueueEntry(room_id, ()),))
 
+        # rooms we have already processed
         processed_rooms = set()  # type: Set[str]
+
+        # events we have already processed. We don't necessarily have their event ids,
+        # so instead we key on (room id, state key)
+        processed_events = set()  # type: Set[Tuple[str, str]]
 
         rooms_result = []  # type: List[JsonDict]
         events_result = []  # type: List[JsonDict]
@@ -122,11 +127,10 @@ class SpaceSummaryHandler:
                 "Query of %s returned rooms %s, events %s",
                 queue_entry.room_id,
                 [room.get("room_id") for room in rooms],
-                ["%s->%s" % (ev.get("room_id"), ev.get("state_key")) for ev in events],
+                ["%s->%s" % (ev["room_id"], ev["state_key"]) for ev in events],
             )
 
             rooms_result.extend(rooms)
-            events_result.extend(events)
 
             # any rooms returned don't need visiting again
             processed_rooms.update(cast(str, room.get("room_id")) for room in rooms)
@@ -135,15 +139,25 @@ class SpaceSummaryHandler:
             # it again, anyway.
             processed_rooms.add(room_id)
 
-            # add any children to the queue. _get_child_events has already validated
-            # that the vias are a list of server names.
             # XXX: is it ok that we blindly iterate through any events returned by
             #   a remote server, whether or not they actually link to any rooms in our
             #   tree?
-            room_queue.extend(
-                _RoomQueueEntry(edge_event["state_key"], edge_event["content"]["via"])
-                for edge_event in events
-            )
+            for ev in events:
+                # remote servers might return events we have already processed
+                # (eg, Dendrite returns inward pointers as well as outward ones), so
+                # we need to filter them out, to avoid returning duplicate links to the
+                # client.
+                ev_key = (ev["room_id"], ev["state_key"])
+                if ev_key in processed_events:
+                    continue
+                events_result.append(ev)
+
+                # add the child to the queue. we have already validated
+                # that the vias are a list of server names.
+                room_queue.append(
+                    _RoomQueueEntry(ev["state_key"], ev["content"]["via"])
+                )
+                processed_events.add(ev_key)
 
         return {"rooms": rooms_result, "events": events_result}
 
