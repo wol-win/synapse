@@ -114,11 +114,12 @@ class SpaceSummaryHandler:
                     exclude_rooms=processed_rooms,
                 )
 
-                logger.debug(
-                    "Federation request for %s returned rooms %s",
-                    queue_entry.room_id,
-                    [room.get("room_id") for room in rooms],
-                )
+            logger.debug(
+                "Query of %s returned rooms %s, events %s",
+                queue_entry.room_id,
+                [room.get("room_id") for room in rooms],
+                ["%s->%s" % (ev.get("room_id"), ev.get("state_key")) for ev in events],
+            )
 
             rooms_result.extend(rooms)
             events_result.extend(events)
