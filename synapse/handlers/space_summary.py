@@ -271,7 +271,11 @@ class SpaceSummaryHandler:
             )
             return (), ()
 
-        return res.rooms, tuple(ev.data for ev in res.events)
+        return res.rooms, tuple(
+            ev.data
+            for ev in res.events
+            if ev.event_type == EventTypes.MSC1772_SPACE_CHILD
+        )
 
     async def _is_room_accessible(self, room_id: str, requester: Optional[str]) -> bool:
         # if we have an authenticated requesting user, first check if they are in the
