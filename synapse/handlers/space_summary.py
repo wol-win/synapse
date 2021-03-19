@@ -93,6 +93,10 @@ class SpaceSummaryHandler:
         while room_queue and len(rooms_result) < MAX_ROOMS:
             queue_entry = room_queue.popleft()
             room_id = queue_entry.room_id
+            if room_id in processed_rooms:
+                # already done this room
+                continue
+
             logger.debug("Processing room %s", room_id)
 
             is_in_room = await self._store.is_host_joined(room_id, self._server_name)
@@ -125,24 +129,21 @@ class SpaceSummaryHandler:
             events_result.extend(events)
 
             # any rooms returned don't need visiting again
-            processed_rooms.update(room.get("room_id") for room in rooms)
+            processed_rooms.update(cast(str, room.get("room_id")) for room in rooms)
 
             # the room we queried may or may not have been returned, but don't process
             # it again, anyway.
             processed_rooms.add(room_id)
 
-            # add any children that we haven't already processed to the queue
+            # add any children to the queue. _get_child_events has already validated
+            # that the vias are a list of server names.
             # XXX: is it ok that we blindly iterate through any events returned by
             #   a remote server, whether or not they actually link to any rooms in our
             #   tree?
-            for edge_event in events:
-                if edge_event["state_key"] not in processed_rooms:
-                    # _get_child_events has already validated that the vias are a list
-                    # of server names
-                    edge_vias = cast(Sequence[str], edge_event["content"]["via"])
-                    room_queue.append(
-                        _RoomQueueEntry(edge_event["state_key"], edge_vias)
-                    )
+            room_queue.extend(
+                _RoomQueueEntry(edge_event["state_key"], edge_event["content"]["via"])
+                for edge_event in events
+            )
 
         return {"rooms": rooms_result, "events": events_result}
 
@@ -185,20 +186,23 @@ class SpaceSummaryHandler:
 
         while room_queue and len(rooms_result) < MAX_ROOMS:
             room_id = room_queue.popleft()
+            if room_id in processed_rooms:
+                # already done this room
+                continue
+
             logger.debug("Processing room %s", room_id)
-            processed_rooms.add(room_id)
 
             rooms, events = await self._summarize_local_room(
                 None, room_id, suggested_only, max_rooms_per_space
             )
 
+            processed_rooms.add(room_id)
+
             rooms_result.extend(rooms)
             events_result.extend(events)
 
-            # add any children that we haven't already processed to the queue
-            for edge_event in events:
-                if edge_event["state_key"] not in processed_rooms:
-                    room_queue.append(edge_event["state_key"])
+            # add any children to the queue
+            room_queue.extend(edge_event["state_key"] for edge_event in events)
 
         return {"rooms": rooms_result, "events": events_result}
 
