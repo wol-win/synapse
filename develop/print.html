@@ -7436,7 +7436,7 @@ whether the given file can be stored in the homeserver's media store.</p>
 <ul>
 <li>ensure the module's callbacks are all asynchronous.</li>
 <li>register their callbacks using one or more of the <code>register_[...]_callbacks</code> methods
-from the <code>ModuleApi</code> class in the module's <code>__init__</code> method (see <a href="modules.html#registering-a-web-resource">this section</a>
+from the <code>ModuleApi</code> class in the module's <code>__init__</code> method (see <a href="modules.html#registering-a-callback">this section</a>
 for more info).</li>
 </ul>
 <p>Additionally, if the module is packaged with an additional web resource, the module
@@ -7781,7 +7781,9 @@ routing information pulled from the resulting dictionary.</p>
 <p>Once you've crafted your module and installed it into the same Python environment as
 Synapse, amend your homeserver config file with the following.</p>
 <pre><code class="language-yaml">presence:
-  routing_module:
+  enabled: true
+
+  presence_router:
     module: my_module.ExamplePresenceRouter
     config:
       # Any configuration options for your module. The below is an example.
@@ -9782,7 +9784,17 @@ server admin: <a href="admin_api/../usage/administration/admin_api">Admin API</a
     &quot;creation_ts&quot;: 1560432506,
     &quot;appservice_id&quot;: null,
     &quot;consent_server_notice_sent&quot;: null,
-    &quot;consent_version&quot;: null
+    &quot;consent_version&quot;: null,
+    &quot;external_ids&quot;: [
+        {
+            &quot;auth_provider&quot;: &quot;&lt;provider1&gt;&quot;,
+            &quot;external_id&quot;: &quot;&lt;user_id_provider_1&gt;&quot;
+        },
+        {
+            &quot;auth_provider&quot;: &quot;&lt;provider2&gt;&quot;,
+            &quot;external_id&quot;: &quot;&lt;user_id_provider_2&gt;&quot;
+        }
+    ]
 }
 </code></pre>
 <p>URL parameters:</p>
