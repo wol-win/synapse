@@ -183,13 +183,7 @@
                         <div id="chapter_begin" style="break-before: page; page-break-before: always;"></div><h1 id="introduction"><a class="header" href="#introduction">Introduction</a></h1>
 <p>Welcome to the documentation repository for Synapse, the reference
 <a href="https://matrix.org">Matrix</a> homeserver implementation.</p>
-<div id="chapter_begin" style="break-before: page; page-break-before: always;"></div><!--
-  Include the contents of INSTALL.md from the project root without moving it, which may
-  break links around the internet. Additionally, note that SUMMARY.md is unable to 
-  directly link to content outside of the docs/ directory. So we use this file as a 
-  redirection.
--->
-<h1 id="installation-instructions"><a class="header" href="#installation-instructions">Installation Instructions</a></h1>
+<div id="chapter_begin" style="break-before: page; page-break-before: always;"></div><h1 id="installation-instructions"><a class="header" href="#installation-instructions">Installation Instructions</a></h1>
 <p>There are 3 steps to follow under <strong>Installation Instructions</strong>.</p>
 <ul>
 <li><a href="setup/installation.html#installation-instructions">Installation Instructions</a>
@@ -260,7 +254,7 @@ production-ready setup, you will probably want to specify your domain
 (<code>example.com</code>) rather than a matrix-specific hostname here (in the same way
 that your email address is probably <code>user@example.com</code> rather than
 <code>user@email.example.com</code>) - but doing so may require more advanced setup: see
-<a href="setup/docs/federate.html">Setting up Federation</a>.</p>
+<a href="setup/../federate.html">Setting up Federation</a>.</p>
 <h2 id="installing-synapse"><a class="header" href="#installing-synapse">Installing Synapse</a></h2>
 <h3 id="installing-from-source"><a class="header" href="#installing-from-source">Installing from source</a></h3>
 <p>(Prebuilt packages are available for some platforms - see <a href="setup/installation.html#prebuilt-packages">Prebuilt packages</a>.)</p>
@@ -389,8 +383,9 @@ for a number of platforms.</p>
 <h4 id="docker-images-and-ansible-playbooks"><a class="header" href="#docker-images-and-ansible-playbooks">Docker images and Ansible playbooks</a></h4>
 <p>There is an official synapse image available at
 <a href="https://hub.docker.com/r/matrixdotorg/synapse">https://hub.docker.com/r/matrixdotorg/synapse</a> which can be used with
-the docker-compose file available at <a href="setup/contrib/docker">contrib/docker</a>. Further
-information on this including configuration options is available in the README
+the docker-compose file available at
+<a href="https://github.com/matrix-org/synapse/tree/develop/contrib/docker">contrib/docker</a>.
+Further information on this including configuration options is available in the README
 on hub.docker.com.</p>
 <p>Alternatively, Andreas Peters (previously Silvio Fricke) has contributed a
 Dockerfile to automate a synapse server in a single Docker image, at
@@ -496,7 +491,7 @@ caching model, smarter query optimiser</li>
 <li>allowing the DB to be run on separate hardware</li>
 </ul>
 <p>For information on how to install and use PostgreSQL in Synapse, please see
-<a href="setup/docs/postgres.html">docs/postgres.md</a></p>
+<a href="setup/../postgres.html">docs/postgres.md</a></p>
 <p>SQLite is only acceptable for testing purposes. SQLite should not be used in
 a production server. Synapse will perform poorly when using
 SQLite, especially when participating in large rooms.</p>
@@ -507,7 +502,7 @@ but for any practical use, you will need Synapse's APIs to be served
 over HTTPS.</p>
 <p>The recommended way to do so is to set up a reverse proxy on port
 <code>8448</code>. You can find documentation on doing so in
-<a href="setup/docs/reverse_proxy.html">docs/reverse_proxy.md</a>.</p>
+<a href="setup/../reverse_proxy.html">docs/reverse_proxy.md</a>.</p>
 <p>Alternatively, you can configure Synapse to expose an HTTPS port. To do
 so, you will need to edit <code>homeserver.yaml</code>, as follows:</p>
 <ul>
@@ -533,7 +528,7 @@ includes the full certificate chain including any intermediate certificates
 </li>
 </ul>
 <p>For a more detailed guide to configuring your server for federation, see
-<a href="setup/docs/federate.html">federate.md</a>.</p>
+<a href="setup/../federate.html">federate.md</a>.</p>
 <h3 id="client-well-known-uri"><a class="header" href="#client-well-known-uri">Client Well-Known URI</a></h3>
 <p>Setting up the client Well-Known URI is optional but if you set it up, it will
 allow users to enter their full username (e.g. <code>@user:&lt;server_name&gt;</code>) into clients
@@ -619,7 +614,9 @@ anyone with knowledge of it can register users, including admin accounts,
 on your server even if <code>enable_registration</code> is <code>false</code>.</p>
 <h3 id="setting-up-a-turn-server"><a class="header" href="#setting-up-a-turn-server">Setting up a TURN server</a></h3>
 <p>For reliable VoIP calls to be routed via this homeserver, you MUST configure
-a TURN server. See <a href="setup/docs/turn-howto.html">docs/turn-howto.md</a> for details.</p>
+a TURN server. See
+<a href="setup/../turn-howto.html">docs/turn-howto.md</a>
+for details.</p>
 <h3 id="url-previews"><a class="header" href="#url-previews">URL previews</a></h3>
 <p>Synapse includes support for previewing URLs, which is disabled by default.  To
 turn it on you must enable the <code>url_preview_enabled: True</code> config parameter
@@ -647,7 +644,7 @@ failing, e.g.:</p>
 connect to a postgres database.</p>
 <ul>
 <li>
-<p>If you are using the <a href="../INSTALL.html#matrixorg-packages">matrix.org debian/ubuntu
+<p>If you are using the <a href="setup/installation.html#matrixorg-packages">matrix.org debian/ubuntu
 packages</a>, the necessary python
 library will already be installed, but you will need to ensure the
 low-level postgres library is installed, which you can do with
@@ -658,7 +655,7 @@ low-level postgres library is installed, which you can do with
 the relevant package.</p>
 </li>
 <li>
-<p>If you installed synapse <a href="../INSTALL.html#installing-from-source">in a
+<p>If you installed synapse <a href="setup/installation.html#installing-from-source">in a
 virtualenv</a>, you can install
 the library with:</p>
 <pre><code>~/synapse/env/bin/pip install &quot;matrix-synapse[postgres]&quot;
@@ -1383,7 +1380,7 @@ which are no longer maintained.</p>
 summaries.</p>
 </li>
 <li>
-<p>If Synapse was installed using <a href="../setup/INSTALL.html#prebuilt-packages">prebuilt
+<p>If Synapse was installed using <a href="setup/installation.html#prebuilt-packages">prebuilt
 packages</a>, you will need to follow the
 normal process for upgrading those packages.</p>
 </li>
@@ -2510,7 +2507,7 @@ certificate checks.</p>
 upgraded, however it may be of use to those with old installs returning to the
 project.</p>
 <p>If you are setting up a server from scratch you almost certainly should look at
-the <a href="../INSTALL.html">installation guide</a> instead.</p>
+the <a href="setup/installation.html">installation guide</a> instead.</p>
 <h2 id="introduction-1"><a class="header" href="#introduction-1">Introduction</a></h2>
 <p>The goal of Synapse 0.99.0 is to act as a stepping stone to Synapse 1.0.0. It
 supports the r0.1 release of the server to server specification, but is
@@ -2846,7 +2843,8 @@ a fresh config using Synapse by following the instructions in
 #
 # It is *not* intended to be copied and used as the basis for a real
 # homeserver.yaml. Instead, if you are starting from scratch, please generate
-# a fresh config using Synapse by following the instructions in INSTALL.md.
+# a fresh config using Synapse by following the instructions in
+# https://matrix-org.github.io/synapse/latest/setup/installation.html.
 
 # Configuration options that take a time period can be set using a number
 # followed by a letter. Letters have the following meanings:
@@ -2874,7 +2872,7 @@ a fresh config using Synapse by following the instructions in
 
 # Server admins can expand Synapse's functionality with external modules.
 #
-# See https://matrix-org.github.io/synapse/develop/modules.html for more
+# See https://matrix-org.github.io/synapse/latest/modules.html for more
 # documentation on how to configure or create custom modules for Synapse.
 #
 modules:
@@ -2896,7 +2894,7 @@ modules:
 # In most cases you should avoid using a matrix specific subdomain such as
 # matrix.example.com or synapse.example.com as the server_name for the same
 # reasons you wouldn't use user@email.example.com as your email address.
-# See https://github.com/matrix-org/synapse/blob/master/docs/delegate.md
+# See https://matrix-org.github.io/synapse/latest/delegate.html
 # for information on how to host Synapse on a subdomain while preserving
 # a clean server_name.
 #
@@ -3091,9 +3089,9 @@ presence:
 #       'all local interfaces'.
 #
 #   type: the type of listener. Normally 'http', but other valid options are:
-#       'manhole' (see docs/manhole.md),
-#       'metrics' (see docs/metrics-howto.md),
-#       'replication' (see docs/workers.md).
+#       'manhole' (see https://matrix-org.github.io/synapse/latest/manhole.html),
+#       'metrics' (see https://matrix-org.github.io/synapse/latest/metrics-howto.html),
+#       'replication' (see https://matrix-org.github.io/synapse/latest/workers.html).
 #
 #   tls: set to true to enable TLS for this listener. Will use the TLS
 #       key/cert specified in tls_private_key_path / tls_certificate_path.
@@ -3118,8 +3116,8 @@ presence:
 #   client: the client-server API (/_matrix/client), and the synapse admin
 #       API (/_synapse/admin). Also implies 'media' and 'static'.
 #
-#   consent: user consent forms (/_matrix/consent). See
-#       docs/consent_tracking.md.
+#   consent: user consent forms (/_matrix/consent).
+#       See https://matrix-org.github.io/synapse/latest/consent_tracking.html.
 #
 #   federation: the server-server API (/_matrix/federation). Also implies
 #       'media', 'keys', 'openid'
@@ -3128,12 +3126,13 @@ presence:
 #
 #   media: the media API (/_matrix/media).
 #
-#   metrics: the metrics interface. See docs/metrics-howto.md.
+#   metrics: the metrics interface.
+#       See https://matrix-org.github.io/synapse/latest/metrics-howto.html.
 #
 #   openid: OpenID authentication.
 #
-#   replication: the HTTP replication API (/_synapse/replication). See
-#       docs/workers.md.
+#   replication: the HTTP replication API (/_synapse/replication).
+#       See https://matrix-org.github.io/synapse/latest/workers.html.
 #
 #   static: static resources under synapse/static (/_matrix/static). (Mostly
 #       useful for 'fallback authentication'.)
@@ -3157,7 +3156,7 @@ listeners:
   # that unwraps TLS.
   #
   # If you plan to use a reverse proxy, please see
-  # https://github.com/matrix-org/synapse/blob/master/docs/reverse_proxy.md.
+  # https://matrix-org.github.io/synapse/latest/reverse_proxy.html.
   #
   - port: 8008
     tls: false
@@ -3585,7 +3584,8 @@ caches:
 #    cp_min: 5
 #    cp_max: 10
 #
-# For more information on using Synapse with Postgres, see `docs/postgres.md`.
+# For more information on using Synapse with Postgres,
+# see https://matrix-org.github.io/synapse/latest/postgres.html.
 #
 database:
   name: sqlite3
@@ -3738,7 +3738,7 @@ media_store_path: &quot;DATADIR/media_store&quot;
 #
 # If you are using a reverse proxy you may also need to set this value in
 # your reverse proxy's config. Notably Nginx has a small max body size by default.
-# See https://matrix-org.github.io/synapse/develop/reverse_proxy.html.
+# See https://matrix-org.github.io/synapse/latest/reverse_proxy.html.
 #
 #max_upload_size: 50M
 
@@ -4678,7 +4678,7 @@ saml2_config:
 #
 #       module: The class name of a custom mapping module. Default is
 #           'synapse.handlers.oidc.JinjaOidcMappingProvider'.
-#           See https://github.com/matrix-org/synapse/blob/master/docs/sso_mapping_providers.md#openid-mapping-providers
+#           See https://matrix-org.github.io/synapse/latest/sso_mapping_providers.html#openid-mapping-providers
 #           for information on implementing a custom mapping provider.
 #
 #       config: Configuration for the mapping provider module. This section will
@@ -4729,7 +4729,7 @@ saml2_config:
 #     - attribute: groups
 #       value: &quot;admin&quot;
 #
-# See https://github.com/matrix-org/synapse/blob/master/docs/openid.md
+# See https://matrix-org.github.io/synapse/latest/openid.html
 # for information on how to configure these options.
 #
 # For backwards compatibility, it is also possible to configure a single OIDC
@@ -5007,7 +5007,7 @@ sso:
 # Note that this is a non-standard login type and client support is
 # expected to be non-existent.
 #
-# See https://github.com/matrix-org/synapse/blob/master/docs/jwt.md.
+# See https://matrix-org.github.io/synapse/latest/jwt.html.
 #
 #jwt_config:
     # Uncomment the following to enable authorization using JSON web
@@ -5307,7 +5307,7 @@ email:
 # ex. LDAP, external tokens, etc.
 #
 # For more information and known implementations, please see
-# https://github.com/matrix-org/synapse/blob/master/docs/password_auth_providers.md
+# https://matrix-org.github.io/synapse/latest/password_auth_providers.html
 #
 # Note: instances wishing to use SAML or CAS authentication should
 # instead use the `saml2_config` or `cas_config` options,
@@ -5409,7 +5409,7 @@ user_directory:
     #
     # If you set it true, you'll have to rebuild the user_directory search
     # indexes, see:
-    # https://github.com/matrix-org/synapse/blob/master/docs/user_directory.md
+    # https://matrix-org.github.io/synapse/latest/user_directory.html
     #
     # Uncomment to return search results containing all known users, even if that
     # user does not share a room with the requester.
@@ -5429,7 +5429,7 @@ user_directory:
 # User Consent configuration
 #
 # for detailed instructions, see
-# https://github.com/matrix-org/synapse/blob/master/docs/consent_tracking.md
+# https://matrix-org.github.io/synapse/latest/consent_tracking.html
 #
 # Parts of this section are required if enabling the 'consent' resource under
 # 'listeners', in particular 'template_dir' and 'version'.
@@ -5479,7 +5479,7 @@ user_directory:
 
 
 # Settings for local room and user statistics collection. See
-# docs/room_and_user_statistics.md.
+# https://matrix-org.github.io/synapse/latest/room_and_user_statistics.html.
 #
 stats:
   # Uncomment the following to disable room and user statistics. Note that doing
@@ -5487,11 +5487,6 @@ stats:
   # correctly.
   #
   #enabled: false
-
-  # The size of each timeslice in the room_stats_historical and
-  # user_stats_historical tables, as a time period. Defaults to &quot;1d&quot;.
-  #
-  #bucket_size: 1h
 
 
 # Server Notices room configuration
@@ -5606,7 +5601,7 @@ opentracing:
     #enabled: true
 
     # The list of homeservers we wish to send and receive span contexts and span baggage.
-    # See docs/opentracing.rst.
+    # See https://matrix-org.github.io/synapse/latest/opentracing.html.
     #
     # This is a list of regexes which are matched against the server_name of the
     # homeserver.
@@ -5722,7 +5717,7 @@ a fresh config using Synapse by following the instructions in
 # be ingested by ELK stacks. See [2] for details.
 #
 # [1]: https://docs.python.org/3.7/library/logging.config.html#configuration-dictionary-schema
-# [2]: https://github.com/matrix-org/synapse/blob/master/docs/structured_logging.md
+# [2]: https://matrix-org.github.io/synapse/latest/structured_logging.html
 
 version: 1
 
@@ -8624,7 +8619,7 @@ server admin: see <a href="admin_api/../usage/administration/admin_api">Admin AP
 </code></pre>
 <h2 id="list-all-media-uploaded-by-a-user"><a class="header" href="#list-all-media-uploaded-by-a-user">List all media uploaded by a user</a></h2>
 <p>Listing all media that has been uploaded by a local user can be achieved through
-the use of the <a href="admin_api/user_admin_api.rst#list-media-of-a-user">List media of a user</a>
+the use of the <a href="admin_api/user_admin_api.html#list-media-of-a-user">List media of a user</a>
 Admin API.</p>
 <h1 id="quarantine-media"><a class="header" href="#quarantine-media">Quarantine media</a></h1>
 <p>Quarantining media means that it is marked as inaccessible by users. It applies
@@ -8763,7 +8758,7 @@ See also <a href="admin_api/media_admin_api.html#purge-remote-media-api">Purge R
 <li><code>server_name</code>: string - The name of your local server (e.g <code>matrix.org</code>).</li>
 <li><code>before_ts</code>: string representing a positive integer - Unix timestamp in ms.
 Files that were last used before this timestamp will be deleted. It is the timestamp of
-last access and not the timestamp creation. </li>
+last access and not the timestamp creation.</li>
 <li><code>size_gt</code>: Optional - string representing a positive integer - Size of the media in bytes.
 Files that are larger will be deleted. Defaults to <code>0</code>.</li>
 <li><code>keep_profiles</code>: Optional - string representing a boolean - Switch to also delete files
@@ -8961,19 +8956,12 @@ server admin: see <a href="admin_api/../usage/administration/admin_api">Admin AP
 </code></pre>
 <div id="chapter_begin" style="break-before: page; page-break-before: always;"></div><h1 id="contents-2"><a class="header" href="#contents-2">Contents</a></h1>
 <ul>
-<li><a href="admin_api/rooms.html#list-room-api">List Room API</a>
-<ul>
-<li><a href="admin_api/rooms.html#parameters">Parameters</a></li>
-<li><a href="admin_api/rooms.html#usage">Usage</a></li>
-</ul>
-</li>
+<li><a href="admin_api/rooms.html#list-room-api">List Room API</a></li>
 <li><a href="admin_api/rooms.html#room-details-api">Room Details API</a></li>
 <li><a href="admin_api/rooms.html#room-members-api">Room Members API</a></li>
 <li><a href="admin_api/rooms.html#room-state-api">Room State API</a></li>
 <li><a href="admin_api/rooms.html#delete-room-api">Delete Room API</a>
 <ul>
-<li><a href="admin_api/rooms.html#parameters-1">Parameters</a></li>
-<li><a href="admin_api/rooms.html#response">Response</a></li>
 <li><a href="admin_api/rooms.html#undoing-room-shutdowns">Undoing room shutdowns</a></li>
 </ul>
 </li>
@@ -8985,7 +8973,7 @@ server admin: see <a href="admin_api/../usage/administration/admin_api">Admin AP
 <p>The List Room admin API allows server admins to get a list of rooms on their
 server. There are various parameters available that allow for filtering and
 sorting the returned list. This API supports pagination.</p>
-<h2 id="parameters-1"><a class="header" href="#parameters-1">Parameters</a></h2>
+<p><strong>Parameters</strong></p>
 <p>The following query parameters are available:</p>
 <ul>
 <li><code>from</code> - Offset in the returned list. Defaults to <code>0</code>.</li>
@@ -9014,6 +9002,7 @@ this value to <code>b</code> will reverse the above sort order. Defaults to <cod
 <li><code>search_term</code> - Filter rooms by their room name. Search term can be contained in any
 part of the room name. Defaults to no filtering.</li>
 </ul>
+<p><strong>Response</strong></p>
 <p>The following fields are possible in the JSON response body:</p>
 <ul>
 <li><code>rooms</code> - An array of objects, each containing information about a room.
@@ -9053,13 +9042,11 @@ the value of <code>next_batch</code>.</li>
 Use <code>prev_batch</code> for the <code>from</code> value in the next request to
 get the &quot;previous page&quot; of results.</li>
 </ul>
-<h2 id="usage-2"><a class="header" href="#usage-2">Usage</a></h2>
+<p>The API is:</p>
 <p>A standard request with no filtering:</p>
 <pre><code>GET /_synapse/admin/v1/rooms
-
-{}
 </code></pre>
-<p>Response:</p>
+<p>A response body like the following is returned:</p>
 <pre><code class="language-jsonc">{
   &quot;rooms&quot;: [
     {
@@ -9102,10 +9089,8 @@ get the &quot;previous page&quot; of results.</li>
 </code></pre>
 <p>Filtering by room name:</p>
 <pre><code>GET /_synapse/admin/v1/rooms?search_term=TWIM
-
-{}
 </code></pre>
-<p>Response:</p>
+<p>A response body like the following is returned:</p>
 <pre><code class="language-json">{
   &quot;rooms&quot;: [
     {
@@ -9131,10 +9116,8 @@ get the &quot;previous page&quot; of results.</li>
 </code></pre>
 <p>Paginating through a list of rooms:</p>
 <pre><code>GET /_synapse/admin/v1/rooms?order_by=size
-
-{}
 </code></pre>
-<p>Response:</p>
+<p>A response body like the following is returned:</p>
 <pre><code class="language-jsonc">{
   &quot;rooms&quot;: [
     {
@@ -9181,10 +9164,8 @@ than returned in this request, and we need to make another request to get them.
 To get the next batch of room results, we repeat our request, setting the <code>from</code>
 parameter to the value of <code>next_token</code>.</p>
 <pre><code>GET /_synapse/admin/v1/rooms?order_by=size&amp;from=100
-
-{}
 </code></pre>
-<p>Response:</p>
+<p>A response body like the following is returned:</p>
 <pre><code class="language-jsonc">{
   &quot;rooms&quot;: [
     {
@@ -9250,13 +9231,10 @@ end of the list.</p>
 <li><code>history_visibility</code> - Who can see the room history. One of: [&quot;invited&quot;, &quot;joined&quot;, &quot;shared&quot;, &quot;world_readable&quot;].</li>
 <li><code>state_events</code> - Total number of state_events of a room. Complexity of the room.</li>
 </ul>
-<h2 id="usage-3"><a class="header" href="#usage-3">Usage</a></h2>
-<p>A standard request:</p>
+<p>The API is:</p>
 <pre><code>GET /_synapse/admin/v1/rooms/&lt;room_id&gt;
-
-{}
 </code></pre>
-<p>Response:</p>
+<p>A response body like the following is returned:</p>
 <pre><code class="language-json">{
   &quot;room_id&quot;: &quot;!mscvqgqpHYjBGDxNym:matrix.org&quot;,
   &quot;name&quot;: &quot;Music Theory&quot;,
@@ -9284,13 +9262,10 @@ end of the list.</p>
 <li><code>members</code> - A list of all the members that are present in the room, represented by their ids.</li>
 <li><code>total</code> - Total number of members in the room.</li>
 </ul>
-<h2 id="usage-4"><a class="header" href="#usage-4">Usage</a></h2>
-<p>A standard request:</p>
+<p>The API is:</p>
 <pre><code>GET /_synapse/admin/v1/rooms/&lt;room_id&gt;/members
-
-{}
 </code></pre>
-<p>Response:</p>
+<p>A response body like the following is returned:</p>
 <pre><code class="language-json">{
   &quot;members&quot;: [
     &quot;@foo:matrix.org&quot;,
@@ -9306,13 +9281,10 @@ end of the list.</p>
 <ul>
 <li><code>state</code> - The current state of the room at the time of request.</li>
 </ul>
-<h2 id="usage-5"><a class="header" href="#usage-5">Usage</a></h2>
-<p>A standard request:</p>
+<p>The API is:</p>
 <pre><code>GET /_synapse/admin/v1/rooms/&lt;room_id&gt;/state
-
-{}
 </code></pre>
-<p>Response:</p>
+<p>A response body like the following is returned:</p>
 <pre><code class="language-json">{
   &quot;state&quot;: [
     {&quot;type&quot;: &quot;m.room.create&quot;, &quot;state_key&quot;: &quot;&quot;, &quot;etc&quot;: true},
@@ -9366,7 +9338,7 @@ server admin: see <a href="admin_api/../usage/administration/admin_api">Admin AP
     &quot;new_room_id&quot;: &quot;!newroomid:example.com&quot;
 }
 </code></pre>
-<h2 id="parameters-2"><a class="header" href="#parameters-2">Parameters</a></h2>
+<p><strong>Parameters</strong></p>
 <p>The following parameters should be set in the URL:</p>
 <ul>
 <li><code>room_id</code> - The ID of the room.</li>
@@ -9393,7 +9365,7 @@ use this unless a regular <code>purge</code> operation fails, as it could leave 
 clients in a confused state.</li>
 </ul>
 <p>The JSON body must not be empty. The body must be at least <code>{}</code>.</p>
-<h2 id="response"><a class="header" href="#response">Response</a></h2>
+<p><strong>Response</strong></p>
 <p>The following fields are returned in the JSON response body:</p>
 <ul>
 <li><code>kicked_users</code> - An array of users (<code>user_id</code>) that were kicked.</li>
@@ -9440,10 +9412,10 @@ to recover at all:</p>
 If the user is not in the room, and it is not publicly joinable, then invite the user.</p>
 <p>By default the server admin (the caller) is granted power, but another user can
 optionally be specified, e.g.:</p>
-<pre><code>    POST /_synapse/admin/v1/rooms/&lt;room_id_or_alias&gt;/make_room_admin
-    {
-        &quot;user_id&quot;: &quot;@foo:example.com&quot;
-    }
+<pre><code>POST /_synapse/admin/v1/rooms/&lt;room_id_or_alias&gt;/make_room_admin
+{
+    &quot;user_id&quot;: &quot;@foo:example.com&quot;
+}
 </code></pre>
 <h1 id="forward-extremities-admin-api"><a class="header" href="#forward-extremities-admin-api">Forward Extremities Admin API</a></h1>
 <p>Enables querying and deleting forward extremities from rooms. When a lot of forward
@@ -9451,7 +9423,7 @@ extremities accumulate in a room, performance can become degraded. For details, 
 <a href="https://github.com/matrix-org/synapse/issues/1760">#1760</a>.</p>
 <h2 id="check-for-forward-extremities"><a class="header" href="#check-for-forward-extremities">Check for forward extremities</a></h2>
 <p>To check the status of forward extremities for a room:</p>
-<pre><code>    GET /_synapse/admin/v1/rooms/&lt;room_id_or_alias&gt;/forward_extremities
+<pre><code>GET /_synapse/admin/v1/rooms/&lt;room_id_or_alias&gt;/forward_extremities
 </code></pre>
 <p>A response as follows will be returned:</p>
 <pre><code class="language-json">{
@@ -9464,7 +9436,7 @@ extremities accumulate in a room, performance can become degraded. For details, 
       &quot;received_ts&quot;: 1611263016761
     }
   ]
-}    
+}
 </code></pre>
 <h2 id="deleting-forward-extremities"><a class="header" href="#deleting-forward-extremities">Deleting forward extremities</a></h2>
 <p><strong>WARNING</strong>: Please ensure you know what you're doing and have read 
@@ -9472,7 +9444,7 @@ the related issue <a href="https://github.com/matrix-org/synapse/issues/1760">#1
 Under no situations should this API be executed as an automated maintenance task!</p>
 <p>If a room has lots of forward extremities, the extra can be
 deleted as follows:</p>
-<pre><code>    DELETE /_synapse/admin/v1/rooms/&lt;room_id_or_alias&gt;/forward_extremities
+<pre><code>DELETE /_synapse/admin/v1/rooms/&lt;room_id_or_alias&gt;/forward_extremities
 </code></pre>
 <p>A response as follows will be returned, indicating the amount of forward extremities
 that were deleted.</p>
@@ -11820,7 +11792,7 @@ the current log context (as well as providing the <code>LoggingContextFilter</co
 class).</p>
 <p>Deferreds make the whole thing complicated, so this document describes
 how it all works, and how to write code which follows the rules.</p>
-<p>##Logcontexts without Deferreds</p>
+<h2 id="logcontexts-without-deferreds"><a class="header" href="#logcontexts-without-deferreds">Logcontexts without Deferreds</a></h2>
 <p>In the absence of any Deferred voodoo, things are simple enough. As with
 any code of this nature, the rule is that our function should leave
 things as it found them:</p>
@@ -12652,9 +12624,9 @@ directory structure <code>&quot;remote_content/server_name/aa/bb/ccccccccddddddd
 is appropriate. Thumbnails for remote content are stored under
 <code>&quot;remote_thumbnails/server_name/...&quot;</code></p>
 <div id="chapter_begin" style="break-before: page; page-break-before: always;"></div><h1 id="room-and-user-statistics"><a class="header" href="#room-and-user-statistics">Room and User Statistics</a></h1>
-<p>Synapse maintains room and user statistics (as well as a cache of room state),
-in various tables. These can be used for administrative purposes but are also
-used when generating the public room directory.</p>
+<p>Synapse maintains room and user statistics in various tables. These can be used
+for administrative purposes but are also used when generating the public room
+directory.</p>
 <h1 id="synapse-developer-documentation"><a class="header" href="#synapse-developer-documentation">Synapse Developer Documentation</a></h1>
 <h2 id="high-level-concepts"><a class="header" href="#high-level-concepts">High-Level Concepts</a></h2>
 <h3 id="definitions-1"><a class="header" href="#definitions-1">Definitions</a></h3>
@@ -12662,48 +12634,10 @@ used when generating the public room directory.</p>
 <li><strong>subject</strong>: Something we are tracking stats about – currently a room or user.</li>
 <li><strong>current row</strong>: An entry for a subject in the appropriate current statistics
 table. Each subject can have only one.</li>
-<li><strong>historical row</strong>: An entry for a subject in the appropriate historical
-statistics table. Each subject can have any number of these.</li>
 </ul>
 <h3 id="overview-4"><a class="header" href="#overview-4">Overview</a></h3>
-<p>Stats are maintained as time series. There are two kinds of column:</p>
-<ul>
-<li>absolute columns – where the value is correct for the time given by <code>end_ts</code>
-in the stats row. (Imagine a line graph for these values)
-<ul>
-<li>They can also be thought of as 'gauges' in Prometheus, if you are familiar.</li>
-</ul>
-</li>
-<li>per-slice columns – where the value corresponds to how many of the occurrences
-occurred within the time slice given by <code>(end_ts − bucket_size)…end_ts</code>
-or <code>start_ts…end_ts</code>. (Imagine a histogram for these values)</li>
-</ul>
-<p>Stats are maintained in two tables (for each type): current and historical.</p>
-<p>Current stats correspond to the present values. Each subject can only have one
-entry.</p>
-<p>Historical stats correspond to values in the past. Subjects may have multiple
-entries.</p>
-<h2 id="concepts-around-the-management-of-stats"><a class="header" href="#concepts-around-the-management-of-stats">Concepts around the management of stats</a></h2>
-<h3 id="current-rows"><a class="header" href="#current-rows">Current rows</a></h3>
-<p>Current rows contain the most up-to-date statistics for a room.
-They only contain absolute columns</p>
-<h3 id="historical-rows"><a class="header" href="#historical-rows">Historical rows</a></h3>
-<p>Historical rows can always be considered to be valid for the time slice and
-end time specified.</p>
-<ul>
-<li>historical rows will not exist for every time slice – they will be omitted
-if there were no changes. In this case, the following assumptions can be
-made to interpolate/recreate missing rows:
-<ul>
-<li>absolute fields have the same values as in the preceding row</li>
-<li>per-slice fields are zero (<code>0</code>)</li>
-</ul>
-</li>
-<li>historical rows will not be retained forever – rows older than a configurable
-time will be purged.</li>
-</ul>
-<h4 id="purge"><a class="header" href="#purge">Purge</a></h4>
-<p>The purging of historical rows is not yet implemented.</p>
+<p>Stats correspond to the present values. Current rows contain the most up-to-date
+statistics for a room. Each subject can only have one entry.</p>
 <div id="chapter_begin" style="break-before: page; page-break-before: always;"></div><h1 id="deprecation-policy-for-platform-dependencies"><a class="header" href="#deprecation-policy-for-platform-dependencies">Deprecation Policy for Platform Dependencies</a></h1>
 <p>Synapse has a number of platform dependencies, including Python and PostgreSQL.
 This document outlines the policy towards which versions we support, and when we
